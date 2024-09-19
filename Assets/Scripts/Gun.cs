@@ -1,18 +1,72 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Gun : MonoBehaviour
 {
+    public int maxBullets;
+    public float fireRate, reloadTime;
+    
     public GameObject bulletPrefab;
     public GameObject bulletsParent;
+    
+    public TextMeshProUGUI ammoText;
+    
+    // Private variables
+    private int _currentBullets;
+    private float _time;
+    private bool _reloading;
+
+    private void Start()
+    {
+        _currentBullets = maxBullets;
+        _time = fireRate;
+    }
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        _time += Time.deltaTime;
+        
+        if (Input.GetMouseButtonDown(0)) FireBullet();
+        if (Input.GetKey(KeyCode.R)) StartCoroutine(Reload());
+        
+        CountBullets();
+    }
+
+    private void CountBullets()
+    {
+        if (_reloading)
         {
-            Instantiate(bulletPrefab, bulletsParent.transform.position, bulletsParent.transform.rotation);
+            ammoText.text = "Reloading...";
+        }
+        else
+        {
+            string curBul = _currentBullets.ToString();
+            string maxBul = maxBullets.ToString();
+        
+            ammoText.text = curBul + "/" + maxBul;
         }
         
+    }
+
+    private void FireBullet()
+    {
+        if (_time >= fireRate && !_reloading && _currentBullets > 0)
+        {
+            _time = 0f; _currentBullets--;
+            GameObject bullet = Instantiate(bulletPrefab, bulletsParent.transform.position, bulletsParent.transform.rotation);
+        }
+    }
+
+    private IEnumerator Reload()
+    {
+        _reloading = true;
+        yield return new WaitForSeconds(reloadTime);
+        
+        _currentBullets = maxBullets;
+        print("Reloaded");
+        _reloading = false;
     }
 }
