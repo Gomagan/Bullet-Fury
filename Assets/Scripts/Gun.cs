@@ -9,8 +9,7 @@ public class Gun : MonoBehaviour
     public int maxBullets;
     public float fireRate, reloadTime;
     
-    public GameObject bulletPrefab;
-    public GameObject bulletsParent;
+    public GameObject bulletPrefab, bulletsParent, effectModel;
     
     public TextMeshProUGUI ammoText;
     
@@ -31,6 +30,8 @@ public class Gun : MonoBehaviour
         
         if (Input.GetMouseButtonDown(0)) FireBullet();
         if (Input.GetKey(KeyCode.R)) StartCoroutine(Reload());
+        
+        if (_time >= 0.1) effectModel.SetActive(false);
         
         CountBullets();
     }
@@ -56,8 +57,11 @@ public class Gun : MonoBehaviour
         if (_time >= fireRate && !_reloading && _currentBullets > 0)
         {
             _time = 0f; _currentBullets--;
+            effectModel.SetActive(true);
             GameObject bullet = Instantiate(bulletPrefab, bulletsParent.transform.position, bulletsParent.transform.rotation);
         }
+
+        
     }
 
     private IEnumerator Reload()
@@ -66,7 +70,6 @@ public class Gun : MonoBehaviour
         yield return new WaitForSeconds(reloadTime);
         
         _currentBullets = maxBullets;
-        print("Reloaded");
         _reloading = false;
     }
 }
