@@ -13,6 +13,8 @@ public class Gun : MonoBehaviour
     
     public TextMeshProUGUI ammoText;
     
+    public AudioSource bulletSound, reloadSound;
+    
     // Private variables
     private int _currentBullets;
     private float _time;
@@ -27,9 +29,18 @@ public class Gun : MonoBehaviour
     void Update()
     {
         _time += Time.deltaTime;
-        
-        if (Input.GetMouseButtonDown(0)) FireBullet();
-        if (Input.GetKey(KeyCode.R)) StartCoroutine(Reload());
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            FireBullet(); 
+            bulletSound.Play();
+        }
+
+        if (Input.GetKey(KeyCode.R))
+        {
+            reloadSound.Play();
+            StartCoroutine(Reload());
+        }
         
         if (_time >= 0.1) effectModel.SetActive(false);
         
@@ -47,7 +58,7 @@ public class Gun : MonoBehaviour
             string curBul = _currentBullets.ToString();
             string maxBul = maxBullets.ToString();
         
-            ammoText.text = curBul + "/" + maxBul;
+            ammoText.text = "Ammo: " + curBul + "/" + maxBul;
         }
         
     }
@@ -60,8 +71,6 @@ public class Gun : MonoBehaviour
             effectModel.SetActive(true);
             GameObject bullet = Instantiate(bulletPrefab, bulletsParent.transform.position, bulletsParent.transform.rotation);
         }
-
-        
     }
 
     private IEnumerator Reload()

@@ -10,11 +10,13 @@ public class PlayerMovement : MonoBehaviour
     private CharacterController _controller;
     private Vector3 _currentMoveVelocity;
     private Vector3 _moveDampVelocity;
+    private bool _isLocked = true;
 
     private Vector3 _currentForceVelocity;
     void Start()
     {
         _controller = GetComponent<CharacterController>();
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     void Update()
@@ -46,6 +48,21 @@ public class PlayerMovement : MonoBehaviour
             if (Input.GetKey(KeyCode.Space))
             {
                 _currentForceVelocity.y = jumpStrength;
+            }
+
+            if (Input.GetKey(KeyCode.Tab))
+            {
+                if (_isLocked)
+                {
+                    _isLocked = false;
+                    Cursor.lockState = CursorLockMode.None;
+                }
+                else
+                {
+                    _isLocked = true;
+                    Cursor.lockState = CursorLockMode.Locked;
+                }
+                
             }
         }
         else
