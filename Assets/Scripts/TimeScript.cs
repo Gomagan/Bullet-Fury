@@ -23,7 +23,8 @@ public class TimeScript : MonoBehaviour
 
         if (_time <= 0)
         {
-            SceneManager.LoadScene("TitleScreen");
+            SceneManager.LoadScene("LoseScreen");
+            Cursor.lockState = CursorLockMode.None;
         }
     }
 }

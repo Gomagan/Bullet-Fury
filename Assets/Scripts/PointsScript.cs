@@ -19,7 +19,8 @@ public class PointsScript : MonoBehaviour
 
         if (points >= 5)
         {
-            SceneManager.LoadScene("TitleScreen");
+            SceneManager.LoadScene("WinScreen");
+            Cursor.lockState = CursorLockMode.None;
         }
         
         if (targets[0].IsDestroyed())

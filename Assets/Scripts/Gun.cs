@@ -33,7 +33,6 @@ public class Gun : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             FireBullet(); 
-            bulletSound.Play();
         }
 
         if (Input.GetKey(KeyCode.R))
@@ -70,6 +69,7 @@ public class Gun : MonoBehaviour
             _time = 0f; _currentBullets--;
             effectModel.SetActive(true);
             GameObject bullet = Instantiate(bulletPrefab, bulletsParent.transform.position, bulletsParent.transform.rotation);
+            bulletSound.Play();
         }
     }
 

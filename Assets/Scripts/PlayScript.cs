@@ -9,4 +9,22 @@ public class PlayScript : MonoBehaviour
     {
         SceneManager.LoadScene("Main Game");
     }
+
+    public void MainMenu()
+    {
+        SceneManager.LoadScene("TitleScreen");
+        Cursor.lockState = CursorLockMode.None;
+    }
+
+    public void Controls()
+    {
+        SceneManager.LoadScene("Main Game");
+        Cursor.lockState = CursorLockMode.None;
+    }
+
+    public void Options()
+    {
+        SceneManager.LoadScene("Main Game");
+        Cursor.lockState = CursorLockMode.None;
+    }
 }
