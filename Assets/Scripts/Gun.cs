@@ -9,7 +9,9 @@ public class Gun : MonoBehaviour
     public int maxBullets;
     public float fireRate, reloadTime;
     
-    public GameObject bulletPrefab, bulletsParent, effectModel;
+    public GameObject bulletPrefab, effectModel;
+
+    public Transform firePoint;
     
     public TextMeshProUGUI ammoText;
 
@@ -30,12 +32,17 @@ public class Gun : MonoBehaviour
 
     void Update()
     {
-        _time += Time.deltaTime;
+        RaycastHit hit;
 
-        if (Input.GetMouseButtonDown(0))
+        if (Physics.Raycast(firePoint.transform.position, transform.TransformDirection(Vector3.forward), out hit, 9999))
         {
+
             StartCoroutine(FireBullet()); 
         }
+        
+        _time += Time.deltaTime;
+
+        if (Input.GetMouseButtonDown(0)) FireBullet(); 
 
         if (Input.GetKey(KeyCode.R))
         {  
@@ -61,19 +68,25 @@ public class Gun : MonoBehaviour
         
             ammoText.text = curBul + "/" + maxBul;
         }
-        
     }
 
     private IEnumerator FireBullet()
     {
         if (_time >= fireRate && !_reloading && _currentBullets > 0)
         {
+            effectModel.SetActive(true);
+            RaycastHit hit;
+
+            if (Physics.Raycast(firePoint.transform.position, transform.TransformDirection(Vector3.forward), out hit, 9999))
+            {
+                Debug.DrawRay(firePoint.transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.red);
+            }
+
             animator.SetBool("shooting", true);
             _time = 0f; _currentBullets--;
-            effectModel.SetActive(true);
             bulletSound.Play();
             
-            GameObject bullet = Instantiate(bulletPrefab, bulletsParent.transform.position, bulletsParent.transform.rotation);
+            //GameObject bullet = Instantiate(bulletPrefab, bulletsParent.transform.position, bulletsParent.transform.rotation);
 
             yield return new WaitForSeconds(0.1f);
             animator.SetBool("shooting", false);

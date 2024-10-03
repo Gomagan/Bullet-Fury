@@ -20,6 +20,7 @@ public class PointsScript : MonoBehaviour
 
         if (points >= 5)
         {
+
             SceneManager.LoadScene("WinScreen");
             Cursor.lockState = CursorLockMode.None;
         }
