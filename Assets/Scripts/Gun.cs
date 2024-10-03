@@ -14,6 +14,8 @@ public class Gun : MonoBehaviour
     public Transform firePoint;
     
     public TextMeshProUGUI ammoText;
+
+    public Animator animator;
     
     public AudioSource bulletSound, reloadSound;
     
@@ -34,12 +36,8 @@ public class Gun : MonoBehaviour
 
         if (Physics.Raycast(firePoint.transform.position, transform.TransformDirection(Vector3.forward), out hit, 9999))
         {
-            Debug.DrawRay(firePoint.transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.red);
 
-            if (hit.transform.CompareTag("Target"))
-            {
-                Destroy(hit.transform.parent.parent.gameObject);
-            }
+            StartCoroutine(FireBullet()); 
         }
         
         _time += Time.deltaTime;
@@ -47,7 +45,7 @@ public class Gun : MonoBehaviour
         if (Input.GetMouseButtonDown(0)) FireBullet(); 
 
         if (Input.GetKey(KeyCode.R))
-        {
+        {  
             reloadSound.Play();
             StartCoroutine(Reload());
         }
@@ -61,40 +59,49 @@ public class Gun : MonoBehaviour
     {
         if (_reloading)
         {
-            ammoText.text = "Reloading...";
+            ammoText.text = "0/0";
         }
         else
         {
             string curBul = _currentBullets.ToString();
             string maxBul = maxBullets.ToString();
         
-            ammoText.text = "Ammo: " + curBul + "/" + maxBul;
+            ammoText.text = curBul + "/" + maxBul;
         }
     }
 
-    private void FireBullet()
+    private IEnumerator FireBullet()
     {
         if (_time >= fireRate && !_reloading && _currentBullets > 0)
         {
-            bulletSound.Play();
-            _time = 0f; _currentBullets--;
             effectModel.SetActive(true);
-
             RaycastHit hit;
 
             if (Physics.Raycast(firePoint.transform.position, transform.TransformDirection(Vector3.forward), out hit, 9999))
             {
                 Debug.DrawRay(firePoint.transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.red);
             }
+
+            animator.SetBool("shooting", true);
+            _time = 0f; _currentBullets--;
+            bulletSound.Play();
+            
+            //GameObject bullet = Instantiate(bulletPrefab, bulletsParent.transform.position, bulletsParent.transform.rotation);
+
+            yield return new WaitForSeconds(0.1f);
+            animator.SetBool("shooting", false);
         }
     }
 
     private IEnumerator Reload()
     {
         _reloading = true;
+        animator.SetBool("reloading", true);
         yield return new WaitForSeconds(reloadTime);
         
         _currentBullets = maxBullets;
         _reloading = false;
+        animator.SetBool("reloading", false);
+
     }
 }
