@@ -1,39 +1,87 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class TargetScript : MonoBehaviour
 {
-    public GameObject target, point1, point2;
-
-    public float speed;
+    public Sprite[] sprites;
+    public SpriteRenderer spriteRenderer;
     
-    private bool _goingDown;
-    private float _timer = 0f;
-    
+    public GameObject[] target;
+    public int targetType;
 
-    private void Start()
+    private float _time;
+    private bool _timeUp;
+    
+    void Start()
     {
-        //target.transform.position = new Vector3(target.transform.position.x, point2.transform.position.y, target.transform.position.z); ;
+        _time = 0;
     }
-
     void Update()
     {
-        if (_goingDown)
+        _time += Time.deltaTime;
+
+        if (targetType == 1)
         {
-            target.transform.position = Vector3.MoveTowards(target.transform.position, point2.transform.position, Time.deltaTime * speed);
+            if (_time <= 1f)
+            {
+                spriteRenderer.sprite = sprites[0];
+                target[0].SetActive(true);
+                target[1].SetActive(false);
+                target[2].SetActive(false);
+            }
+            else if (_time <= 2f)
+            {
+                spriteRenderer.sprite = sprites[1];
+                target[0].SetActive(false);
+                target[1].SetActive(true);
+                target[2].SetActive(false);
+            }
+            else if (_time <= 3f)
+            {
+                spriteRenderer.sprite = sprites[2];
+                target[0].SetActive(false);
+                target[1].SetActive(false);
+                target[2].SetActive(true);
+            }
+            else if (_time <= 4f)
+            {
+                spriteRenderer.sprite = sprites[1];
+                target[0].SetActive(false);
+                target[1].SetActive(true);
+                target[2].SetActive(false);
+            }
+            else if (_time <= 5f)
+            {
+                spriteRenderer.sprite = sprites[0];
+                target[0].SetActive(true);
+                target[1].SetActive(false);
+                target[2].SetActive(false);
+                _time = 0f;
+            }
         }
         else
         {
-            target.transform.position = Vector3.MoveTowards(target.transform.position, point1.transform.position, Time.deltaTime * speed);
+            if (_time <= 1f)
+            {
+                spriteRenderer.sprite = sprites[0];
+                target[0].SetActive(true);
+                target[1].SetActive(false);
+            }
+            else if (_time <= 2f)
+            {
+                spriteRenderer.sprite = sprites[1];
+                target[0].SetActive(false);
+                target[1].SetActive(true);
+            }
+            else if (_time <= 3f)
+            {
+                spriteRenderer.sprite = sprites[0];
+                target[0].SetActive(true);
+                target[1].SetActive(false);
+                _time = 0f;
+            }
         }
         
-        _timer += Time.deltaTime;
-        if (_timer >= 2f)
-        {
-            _goingDown = !_goingDown;
-            _timer = 0f;
-        }
     }
 }
