@@ -7,7 +7,8 @@ using UnityEngine.SceneManagement;
 public class TimeScript : MonoBehaviour
 {
     private float _time = 120f;
-    
+
+
     public TextMeshProUGUI timeText;
     void Start()
     {
@@ -19,7 +20,7 @@ public class TimeScript : MonoBehaviour
     {
         _time -= Time.deltaTime;
         
-        timeText.text = "Time: " + _time.ToString("0");
+        timeText.text = "Time Remaining: " + _time.ToString("0") + "s";
 
         if (_time <= 0)
         {

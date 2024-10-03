@@ -18,13 +18,13 @@ public class PlayScript : MonoBehaviour
 
     public void Controls()
     {
-        SceneManager.LoadScene("Main Game");
+        SceneManager.LoadScene("Controls");
         Cursor.lockState = CursorLockMode.None;
     }
 
     public void Options()
     {
-        SceneManager.LoadScene("Main Game");
+        SceneManager.LoadScene("Options");
         Cursor.lockState = CursorLockMode.None;
     }
 }

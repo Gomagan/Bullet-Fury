@@ -12,6 +12,8 @@ public class Gun : MonoBehaviour
     public GameObject bulletPrefab, bulletsParent, effectModel;
     
     public TextMeshProUGUI ammoText;
+
+    public Animator animator;
     
     public AudioSource bulletSound, reloadSound;
     
@@ -32,11 +34,11 @@ public class Gun : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            FireBullet(); 
+            StartCoroutine(FireBullet()); 
         }
 
         if (Input.GetKey(KeyCode.R))
-        {
+        {  
             reloadSound.Play();
             StartCoroutine(Reload());
         }
@@ -50,35 +52,43 @@ public class Gun : MonoBehaviour
     {
         if (_reloading)
         {
-            ammoText.text = "Reloading...";
+            ammoText.text = "0/0";
         }
         else
         {
             string curBul = _currentBullets.ToString();
             string maxBul = maxBullets.ToString();
         
-            ammoText.text = "Ammo: " + curBul + "/" + maxBul;
+            ammoText.text = curBul + "/" + maxBul;
         }
         
     }
 
-    private void FireBullet()
+    private IEnumerator FireBullet()
     {
         if (_time >= fireRate && !_reloading && _currentBullets > 0)
         {
+            animator.SetBool("shooting", true);
             _time = 0f; _currentBullets--;
             effectModel.SetActive(true);
-            GameObject bullet = Instantiate(bulletPrefab, bulletsParent.transform.position, bulletsParent.transform.rotation);
             bulletSound.Play();
+            
+            GameObject bullet = Instantiate(bulletPrefab, bulletsParent.transform.position, bulletsParent.transform.rotation);
+
+            yield return new WaitForSeconds(0.1f);
+            animator.SetBool("shooting", false);
         }
     }
 
     private IEnumerator Reload()
     {
         _reloading = true;
+        animator.SetBool("reloading", true);
         yield return new WaitForSeconds(reloadTime);
         
         _currentBullets = maxBullets;
         _reloading = false;
+        animator.SetBool("reloading", false);
+
     }
 }
