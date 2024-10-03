@@ -10,7 +10,6 @@ public class PointsScript : MonoBehaviour
     public int points;
     public TextMeshProUGUI pointsText;
 
-
     public GameObject[] targets;
     
     private bool _pointsSet1, _pointsSet2, _pointsSet3, _pointsSet4, _pointsSet5;
@@ -20,9 +19,7 @@ public class PointsScript : MonoBehaviour
 
         if (points >= 5)
         {
-
-            SceneManager.LoadScene("WinScreen");
-            Cursor.lockState = CursorLockMode.None;
+            //SceneManager.LoadScene("TitleScreen");
         }
         
         if (targets[0].IsDestroyed())
