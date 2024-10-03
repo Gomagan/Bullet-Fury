@@ -19,7 +19,7 @@ public class PointsScript : MonoBehaviour
 
         if (points >= 5)
         {
-            SceneManager.LoadScene("TitleScreen");
+            //SceneManager.LoadScene("TitleScreen");
         }
         
         if (targets[0].IsDestroyed())

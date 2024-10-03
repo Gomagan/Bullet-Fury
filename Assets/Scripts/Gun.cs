@@ -9,7 +9,9 @@ public class Gun : MonoBehaviour
     public int maxBullets;
     public float fireRate, reloadTime;
     
-    public GameObject bulletPrefab, bulletsParent, effectModel;
+    public GameObject bulletPrefab, effectModel;
+
+    public Transform firePoint;
     
     public TextMeshProUGUI ammoText;
     
@@ -28,13 +30,21 @@ public class Gun : MonoBehaviour
 
     void Update()
     {
+        RaycastHit hit;
+
+        if (Physics.Raycast(firePoint.transform.position, transform.TransformDirection(Vector3.forward), out hit, 9999))
+        {
+            Debug.DrawRay(firePoint.transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.red);
+
+            if (hit.transform.CompareTag("Target"))
+            {
+                Destroy(hit.collider.gameObject);
+            }
+        }
+        
         _time += Time.deltaTime;
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            FireBullet(); 
-            bulletSound.Play();
-        }
+        if (Input.GetMouseButtonDown(0)) FireBullet(); 
 
         if (Input.GetKey(KeyCode.R))
         {
@@ -60,16 +70,22 @@ public class Gun : MonoBehaviour
         
             ammoText.text = "Ammo: " + curBul + "/" + maxBul;
         }
-        
     }
 
     private void FireBullet()
     {
         if (_time >= fireRate && !_reloading && _currentBullets > 0)
         {
+            bulletSound.Play();
             _time = 0f; _currentBullets--;
             effectModel.SetActive(true);
-            GameObject bullet = Instantiate(bulletPrefab, bulletsParent.transform.position, bulletsParent.transform.rotation);
+
+            RaycastHit hit;
+
+            if (Physics.Raycast(firePoint.transform.position, transform.TransformDirection(Vector3.forward), out hit, 9999))
+            {
+                Debug.DrawRay(firePoint.transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.red);
+            }
         }
     }
 
