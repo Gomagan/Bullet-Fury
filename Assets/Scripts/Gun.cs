@@ -38,7 +38,7 @@ public class Gun : MonoBehaviour
 
             if (hit.transform.CompareTag("Target"))
             {
-                Destroy(hit.collider.gameObject);
+                Destroy(hit.transform.parent.parent.gameObject);
             }
         }
         
