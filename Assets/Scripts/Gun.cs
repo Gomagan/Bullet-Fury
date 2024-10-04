@@ -58,6 +58,8 @@ public class Gun : MonoBehaviour
         
         CountBullets();
         CheckWin();
+        
+        
     }
 
     public void getLeaderboard()

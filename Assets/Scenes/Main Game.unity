@@ -2378,7 +2378,7 @@ PrefabInstance:
     - target: {fileID: 6385448390547889810, guid: ddb266ca284aa124296a955de2918a44, type: 3}
       propertyPath: firePoint
       value: 
-      objectReference: {fileID: 916530678}
+      objectReference: {fileID: 963194228}
     - target: {fileID: 6385448390547889810, guid: ddb266ca284aa124296a955de2918a44, type: 3}
       propertyPath: pointText
       value: 
@@ -2399,7 +2399,8 @@ PrefabInstance:
       propertyPath: reloadSound
       value: 
       objectReference: {fileID: 1383121312}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6385448390547889810, guid: ddb266ca284aa124296a955de2918a44, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -2407,6 +2408,16 @@ PrefabInstance:
 --- !u!4 &916530678 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4817550118456512814, guid: ddb266ca284aa124296a955de2918a44, type: 3}
+  m_PrefabInstance: {fileID: 916530677}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &916530679 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 8886288834968188843, guid: ddb266ca284aa124296a955de2918a44, type: 3}
+  m_PrefabInstance: {fileID: 916530677}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &916530680 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 5123453904463447112, guid: ddb266ca284aa124296a955de2918a44, type: 3}
   m_PrefabInstance: {fileID: 916530677}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &938891370
@@ -2526,6 +2537,7 @@ GameObject:
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
   - component: {fileID: 963194230}
+  - component: {fileID: 963194231}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2706,6 +2718,31 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &963194231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 930561656cf157c45ae9b906318e7449, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxBullets: 9
+  fireRate: 0.4
+  reloadTime: 0.7
+  bulletPrefab: {fileID: 480356066800938488, guid: 6f947f68cf1422c4daab0e9a9da5e7dc, type: 3}
+  effectModel: {fileID: 1516363719}
+  firePoint: {fileID: 963194228}
+  ammoText: {fileID: 1819560383}
+  pointText: {fileID: 280696729}
+  leaderboard: {fileID: 36745000}
+  animator: {fileID: 916530679}
+  bulletSound: {fileID: 916530680}
+  reloadSound: {fileID: 1383121312}
+  emptySound: {fileID: 1772001951}
 --- !u!1 &977396060
 GameObject:
   m_ObjectHideFlags: 0
