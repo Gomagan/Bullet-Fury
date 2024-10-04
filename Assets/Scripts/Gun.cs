@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Timers;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -79,16 +80,47 @@ public class Gun : MonoBehaviour
         pointText.text = "Points: " + _points.ToString();
         if (_points >= 7)
         {
-            for (int i = 9; i > 0; i--)
+            for (int i = 9; i >= 0; i--)
             {
-                if (elapsedtime < boardvalues[i] && elapsedtime > boardvalues[i-1])
+                if (i != 0)
+                {
+                    if (elapsedtime < boardvalues[i] && elapsedtime > boardvalues[i - 1])
+                    {
+                        for (int j = 9; j > i; j--)
+                        {
+                            boardvalues[j] = boardvalues[j-1];
+                        }
+                        boardvalues[i] = elapsedtime;
+                        Debug.Log("You made the leaderboard!");
+                        break;
+                    }
+                    else if (elapsedtime > boardvalues[i] && i == 9 && boardvalues[i] != 0)
+                    {
+                        Debug.Log("so bad u didnt even make the leaderboard rip");
+                        break;
+                    }
+                    else if (elapsedtime > boardvalues[i-1] && boardvalues[i-1] != 0)
+                    {
+                        boardvalues[i] = elapsedtime;
+                        Debug.Log("Worst time on the leaderboard so far");
+                        break;
+                    }
+                }
+                else if (boardvalues[i] == 0)
                 {
                     boardvalues[i] = elapsedtime;
+                    Debug.Log("Inital time recorded");
                     break;
                 }
-                else
+                else if (elapsedtime < boardvalues[0])
                 {
-                    boardvalues[i-1] = boardvalues[i];
+                    for (int j = 9; j > i; j--)
+                    {
+                        boardvalues[j] = boardvalues[j-1];
+                    }
+                    boardvalues[0] = elapsedtime;
+                    Debug.Log("NEW FASTEST TIME!!");
+                    break;
                 }
             }
             Cursor.lockState = CursorLockMode.None;
