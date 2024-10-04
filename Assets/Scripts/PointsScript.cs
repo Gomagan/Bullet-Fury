@@ -13,13 +13,15 @@ public class PointsScript : MonoBehaviour
     public GameObject[] targets;
     
     private bool _pointsSet1, _pointsSet2, _pointsSet3, _pointsSet4, _pointsSet5;
-    void Update()
+    //void Update()
+    public void poop()
     {
         pointsText.text = "Points: " + points.ToString();
 
         if (points >= 5)
         {
-            //SceneManager.LoadScene("TitleScreen");
+            //SceneManager.LoadScene("WinScreen");
+            Cursor.lockState = CursorLockMode.None;
         }
         
         if (targets[0].IsDestroyed())

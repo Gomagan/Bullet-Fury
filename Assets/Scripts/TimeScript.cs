@@ -14,12 +14,13 @@ public class TimeScript : MonoBehaviour
     void Update()
     {
         _time -= Time.deltaTime;
-        
-        timeText.text = "Time: " + _time.ToString("0");
+
+        timeText.text = "Time Remaining: " + _time.ToString("0") + "s";
 
         if (_time <= 0)
         {
             SceneManager.LoadScene("LoseScreen");
+            Cursor.lockState = CursorLockMode.None;
         }
     }
 }
