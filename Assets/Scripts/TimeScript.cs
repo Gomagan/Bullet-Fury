@@ -9,10 +9,6 @@ public class TimeScript : MonoBehaviour
     private float _time = 120f;
     
     public TextMeshProUGUI timeText;
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
@@ -23,7 +19,7 @@ public class TimeScript : MonoBehaviour
 
         if (_time <= 0)
         {
-            SceneManager.LoadScene("TitleScreen");
+            SceneManager.LoadScene("LoseScreen");
         }
     }
 }

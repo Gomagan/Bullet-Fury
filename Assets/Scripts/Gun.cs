@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Gun : MonoBehaviour
 {
@@ -13,12 +14,12 @@ public class Gun : MonoBehaviour
 
     public Transform firePoint;
     
-    public TextMeshProUGUI ammoText;
+    public TextMeshProUGUI ammoText, pointText;
     
-    public AudioSource bulletSound, reloadSound;
+    public AudioSource bulletSound, reloadSound, emptySound;
     
     // Private variables
-    private int _currentBullets;
+    private int _currentBullets, _points;
     private float _time;
     private bool _reloading;
 
@@ -26,22 +27,11 @@ public class Gun : MonoBehaviour
     {
         _currentBullets = maxBullets;
         _time = fireRate;
+        _points = 0;
     }
 
     void Update()
     {
-        RaycastHit hit;
-
-        if (Physics.Raycast(firePoint.transform.position, transform.TransformDirection(Vector3.forward), out hit, 9999))
-        {
-            Debug.DrawRay(firePoint.transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.red);
-
-            if (hit.transform.CompareTag("Target"))
-            {
-                Destroy(hit.transform.parent.parent.gameObject);
-            }
-        }
-        
         _time += Time.deltaTime;
 
         if (Input.GetMouseButtonDown(0)) FireBullet(); 
@@ -55,6 +45,16 @@ public class Gun : MonoBehaviour
         if (_time >= 0.1) effectModel.SetActive(false);
         
         CountBullets();
+        CheckWin();
+    }
+
+    private void CheckWin()
+    {
+        pointText.text = "Points: " + _points.ToString();
+        if (_points >= 7)
+        {
+            SceneManager.LoadScene("WinScreen");
+        }
     }
 
     private void CountBullets()
@@ -85,7 +85,17 @@ public class Gun : MonoBehaviour
             if (Physics.Raycast(firePoint.transform.position, transform.TransformDirection(Vector3.forward), out hit, 9999))
             {
                 Debug.DrawRay(firePoint.transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.red);
+
+                if (hit.transform.CompareTag("Target"))
+                {
+                    Destroy(hit.transform.parent.parent.gameObject);
+                    _points += 1;
+                }
             }
+        }
+        else
+        {
+            emptySound.Play();
         }
     }
 
